@@ -1,23 +1,61 @@
-import logo from './logo.svg';
 import './App.css';
+import {
+  createBrowserRouter,
+  RouterProvider,
+  BrowserRouter,
+  Route,
+  Routes,
+} from "react-router-dom";
+import First from "./pages/First"
+import Layout from "./pages/"
+import Second from "./pages/Second"
+import Third from "./pages/Third"
+import ErrorPage from "./pages/Error"
+import NotFound from "./pages/NotFound"
 
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Layout />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        path: "/",
+        element: <First />,
+      },
+      {
+        path: "/first",
+        element: <First />,
+      },
+      {
+        path: "/second",
+        element: <Second />,
+      },
+      {
+        path: "/third/:num",
+        element: <Third />,
+      },
+    ]
+  },
+
+]);
+
+
+//       <RouterProvider router={router} />
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />} >
+          <Route index element={<First />} />
+          <Route path="/first" element={<First />} />
+          <Route path="/second" element={<Second />} />
+          <Route path="/third/:number" element={<Third />} />
+        </Route>
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+      </BrowserRouter>
     </div>
   );
 }
